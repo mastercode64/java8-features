@@ -1,6 +1,7 @@
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -82,5 +83,39 @@ public class StreamTest {
         assertEquals(Arrays.asList(4), result);
     }
 
+    @Test
+    public void predicateTest() {
+        Predicate<Integer> biggerThan3 = x -> x > 3;
+
+        assertFalse(biggerThan3.test(2));
+        assertTrue(biggerThan3.negate().test(2));
+    }
+
+    @Test
+    public void findFirstTest() {
+        Integer result = Arrays.asList(1, 2, 3, 4).stream()
+                .findFirst()
+                .get();
+
+        assertEquals(1, result);
+    }
+
+    @Test
+    public void sortTest() {
+        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
+                .sorted()
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList(1, 2, 3, 4), result);
+    }
+
+    @Test
+    public void reverseSortTest() {
+        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList(4, 3, 2, 1), result);
+    }
 
 }
