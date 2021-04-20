@@ -2,9 +2,11 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -116,6 +118,45 @@ public class StreamTest {
                 .collect(Collectors.toList());
 
         assertEquals(Arrays.asList(4, 3, 2, 1), result);
+    }
+
+    @Test
+    public void limitTest() {
+        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
+                .limit(2)
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList(4, 1), result);
+    }
+
+    @Test
+    public void skipTest() {
+        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
+                .skip(1)
+                .limit(2)
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList(1, 3), result);
+    }
+
+    @Test
+    public void averageTest() {
+        Double result = Arrays.asList(1, 2, 3).stream()
+                .mapToDouble(x -> x.doubleValue())
+                .average()
+                .getAsDouble();
+
+        assertEquals(2, result);
+    }
+
+    @Test
+    public void intSummaryStatisticsTest() {
+        IntSummaryStatistics summary = IntStream.of(1, 2, 3, 4).summaryStatistics();
+
+        assertEquals(2.5, summary.getAverage());
+        assertEquals(4, summary.getMax());
+        assertEquals(1, summary.getMin());
+        assertEquals(10, summary.getSum());
     }
 
 }
