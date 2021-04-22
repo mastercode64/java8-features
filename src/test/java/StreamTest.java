@@ -1,5 +1,7 @@
+import models.Account;
 import org.junit.jupiter.api.Test;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.IntSummaryStatistics;
@@ -7,6 +9,7 @@ import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -109,6 +112,45 @@ public class StreamTest {
                 .collect(Collectors.toList());
 
         assertEquals(Arrays.asList(1, 2, 3, 4), result);
+    }
+
+    @Test
+    public void sortingListUsingCustomComparator() {
+        List<Account> accounts = Arrays.asList(
+                new Account("Bob", LocalDate.of(2001, 1, 1), 400L),
+                new Account("Amanda", LocalDate.of(2002, 1, 1), 100L),
+                new Account("Carlos", LocalDate.of(2000, 1, 1), 300L)
+        );
+
+        //Sorting by name
+        List<Account> sortedAccounts = accounts
+                .stream()
+                .sorted(Comparator.comparing(Account::getName))
+                .collect(Collectors.toList());
+
+        assertEquals("Amanda", sortedAccounts.get(0).getName());
+        assertEquals("Bob", sortedAccounts.get(1).getName());
+        assertEquals("Carlos", sortedAccounts.get(2).getName());
+
+        //Sorting by birthdate
+        sortedAccounts = accounts
+                .stream()
+                .sorted(Comparator.comparing(Account::getBirthDate))
+                .collect(Collectors.toList());
+
+        assertEquals("Carlos", sortedAccounts.get(0).getName());
+        assertEquals("Bob", sortedAccounts.get(1).getName());
+        assertEquals("Amanda", sortedAccounts.get(2).getName());
+
+        //Sorting by balance
+        sortedAccounts = accounts
+                .stream()
+                .sorted(Comparator.comparing(Account::getCurrentBalance))
+                .collect(Collectors.toList());
+
+        assertEquals("Amanda", sortedAccounts.get(0).getName());
+        assertEquals("Carlos", sortedAccounts.get(1).getName());
+        assertEquals("Bob", sortedAccounts.get(2).getName());
     }
 
     @Test
