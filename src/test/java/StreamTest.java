@@ -77,7 +77,7 @@ public class StreamTest {
     }
 
     @Test
-    public void createPredicateFilterTest() {
+    public void filterWithCustomPredicateTest() {
         Predicate<Integer> biggerThan3 = x -> x > 3;
         Predicate<Integer> lowerThan5 = x -> x < 5;
 
@@ -113,9 +113,18 @@ public class StreamTest {
 
         assertEquals(Arrays.asList(1, 2, 3, 4), result);
     }
+    
+    @Test
+    public void reverseSortTest() {
+        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList(4, 3, 2, 1), result);
+    }
 
     @Test
-    public void sortingListUsingCustomComparator() {
+    public void sortingWithCustomComparator() {
         List<Account> accounts = Arrays.asList(
                 new Account("Bob", LocalDate.of(2001, 1, 1), 400L),
                 new Account("Amanda", LocalDate.of(2002, 1, 1), 100L),
@@ -151,15 +160,6 @@ public class StreamTest {
         assertEquals("Amanda", sortedAccounts.get(0).getName());
         assertEquals("Carlos", sortedAccounts.get(1).getName());
         assertEquals("Bob", sortedAccounts.get(2).getName());
-    }
-
-    @Test
-    public void reverseSortTest() {
-        List<Integer> result = Arrays.asList(4, 1, 3, 2).stream()
-                .sorted(Comparator.reverseOrder())
-                .collect(Collectors.toList());
-
-        assertEquals(Arrays.asList(4, 3, 2, 1), result);
     }
 
     @Test
